@@ -71,7 +71,7 @@ class MainClass extends PluginBase implements Listener{
 		}
 	}
 
-	public function onCommand(CommandSender $sender, Command $command, $label, array $params){
+	public function onCommand(CommandSender $sender, Command $command, string $label, array $params) : bool{
 		switch($command->getName()){
 			case "itemcloud":
 				if(!$sender instanceof Player){
@@ -87,11 +87,11 @@ class MainClass extends PluginBase implements Listener{
 							return true;
 						}
 						if(isset($this->clouds[strtolower($sender->getName())])){
-							$sender->sendMessage("[ItemCloud] You already have your ItemCloud account");
+							$sender->sendMessage("[ItemCloud] You already have an ItemCloud account");
 							break;
 						}
 						$this->clouds[strtolower($sender->getName())] = new ItemCloud([], $sender->getName());
-						$sender->sendMessage("[ItemCloud] Registered to the ItemCloud account");
+						$sender->sendMessage("[ItemCloud] Registered with ItemCloud");
 						break;
 					case "upload":
 					case "up":
@@ -100,7 +100,7 @@ class MainClass extends PluginBase implements Listener{
 							return true;
 						}
 						if(!isset($this->clouds[strtolower($sender->getName())])){
-							$sender->sendMessage("[ItemCloud] Please register to the ItemCloud service first.");
+							$sender->sendMessage("[ItemCloud] Please register with ItemCloud first.");
 							break;
 						}
 						$item = array_shift($params);
@@ -125,9 +125,9 @@ class MainClass extends PluginBase implements Listener{
 						}
 						if($amount <= $count){
 							$this->clouds[strtolower($sender->getName())]->addItem($item->getID(), $item->getDamage(), $amount, true);
-							$sender->sendMessage("[ItemCloud] Uploaded your item to ItemCloud account.");
+							$sender->sendMessage("[ItemCloud] Uploaded your items to ItemCloud");
 						}else{
-							$sender->sendMessage("[ItemCloud] You don't have enough item to upload.");
+							$sender->sendMessage("[ItemCloud] You don't have enough items to upload.");
 						}
 						break;
 					case "download":
@@ -138,7 +138,7 @@ class MainClass extends PluginBase implements Listener{
 						}
 						$name = strtolower($sender->getName());
 						if(!isset($this->clouds[$name])){
-							$sender->sendMessage("[ItemCloud] Please register to the ItemCloud first.");
+							$sender->sendMessage("[ItemCloud] Please register with ItemCloud first.");
 							break;
 						}
 						$item = array_shift($params);
@@ -156,7 +156,7 @@ class MainClass extends PluginBase implements Listener{
 						$item->setCount($amount);
 
 						if(!$this->clouds[$name]->itemExists($item->getID(), $item->getDamage(), $amount)){
-							$sender->sendMessage("[ItemCloud] You don't have enough item in your account.");
+							$sender->sendMessage("[ItemCloud] You don't have enough items in your account.");
 							break;
 						}
 
@@ -175,7 +175,7 @@ class MainClass extends PluginBase implements Listener{
 						}
 						$name = strtolower($sender->getName());
 						if(!isset($this->clouds[$name])){
-							$sender->sendMessage("[ItemCloud] Please register to the ItemCloud first.");
+							$sender->sendMessage("[ItemCloud] Please register with ItemCloud first.");
 							break;
 						}
 						$output = "[ItemCloud] Item list : \n";
@@ -191,7 +191,7 @@ class MainClass extends PluginBase implements Listener{
 						}
 						$name = strtolower($sender->getName());
 						if(!isset($this->clouds[$name])){
-							$sender->sendMessage("[ItemCloud] Please register to the ItemCloud first.");
+							$sender->sendMessage("[ItemCloud] Please register with ItemCloud first.");
 							return true;
 						}
 						$item = array_shift($params);
@@ -202,7 +202,7 @@ class MainClass extends PluginBase implements Listener{
 
 						$item = Item::fromString($item);
 
-						if(($count = $this->clouds[$name]->getCount($item->getID(), $item->getDamage())) === false){
+						if(($count = $this->clouds[$name]->getCount($item->getId(), $item->getDamage())) === false){
 							$sender->sendMessage("[ItemCloud] There are no ".$item->getName()." in your account.");
 							break;
 						}else{
@@ -214,7 +214,7 @@ class MainClass extends PluginBase implements Listener{
 				}
 				return true;
 		}
-		return false;
+		return true;
 	}
 
 	public function save(){
