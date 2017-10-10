@@ -55,10 +55,10 @@ class MainClass extends PluginBase implements Listener{
 
 	public function onEnable(){
 		@mkdir($this->getDataFolder());
-		if(!is_file($this->getDataFolder()."ItemCloud.dat")){
-			file_put_contents($this->getDataFolder()."ItemCloud.dat", serialize([]));
+		if(!is_file($this->getDataFolder() . "ItemCloud.dat")){
+			file_put_contents($this->getDataFolder() . "ItemCloud.dat", serialize([]));
 		}
-		$data = unserialize(file_get_contents($this->getDataFolder()."ItemCloud.dat"));
+		$data = unserialize(file_get_contents($this->getDataFolder() . "ItemCloud.dat"));
 
 		$this->saveDefaultConfig();
 		if(is_numeric($interval = $this->getConfig()->get("auto-save-interval"))){
@@ -83,7 +83,7 @@ class MainClass extends PluginBase implements Listener{
 					case "register":
 					case "reg":
 						if(!$sender->hasPermission("itemcloud.command.register")){
-							$sender->sendMessage(TextFormat::RED."You don't have permission to use this command.");
+							$sender->sendMessage(TextFormat::RED . "You don't have permission to use this command.");
 							return true;
 						}
 						if(isset($this->clouds[strtolower($sender->getName())])){
@@ -96,7 +96,7 @@ class MainClass extends PluginBase implements Listener{
 					case "upload":
 					case "up":
 						if(!$sender->hasPermission("itemcloud.command.upload")){
-							$sender->sendMessage(TextFormat::RED."You don't have permission to use this command.");
+							$sender->sendMessage(TextFormat::RED . "You don't have permission to use this command.");
 							return true;
 						}
 						if(!isset($this->clouds[strtolower($sender->getName())])){
@@ -133,7 +133,7 @@ class MainClass extends PluginBase implements Listener{
 					case "download":
 					case "down":
 						if(!$sender->hasPermission("itemcloud.command.download")){
-							$sender->sendMessage(TextFormat::RED."You don't have permission to use this command.");
+							$sender->sendMessage(TextFormat::RED . "You don't have permission to use this command.");
 							return true;
 						}
 						$name = strtolower($sender->getName());
@@ -147,7 +147,7 @@ class MainClass extends PluginBase implements Listener{
 							$sender->sendMessage("Usage: /itemcloud download <item ID[:item damage]> <count>");
 							break;
 						}
-						$amount = (int)$amount;
+						$amount = (int) $amount;
 						if($amount < 1){
 							$sender->sendMessage("Wrong amount");
 							break;
@@ -170,7 +170,7 @@ class MainClass extends PluginBase implements Listener{
 						break;
 					case "list":
 						if(!$sender->hasPermission("itemcloud.command.list")){
-							$sender->sendMessage(TextFormat::RED."You don't have permission to use this command.");
+							$sender->sendMessage(TextFormat::RED . "You don't have permission to use this command.");
 							return true;
 						}
 						$name = strtolower($sender->getName());
@@ -186,7 +186,7 @@ class MainClass extends PluginBase implements Listener{
 						break;
 					case "count":
 						if(!$sender->hasPermission("itemcloud.command.count")){
-							$sender->sendMessage(TextFormat::RED."You don't have permission to use this command.");
+							$sender->sendMessage(TextFormat::RED . "You don't have permission to use this command.");
 							return true;
 						}
 						$name = strtolower($sender->getName());
@@ -203,14 +203,14 @@ class MainClass extends PluginBase implements Listener{
 						$item = Item::fromString($item);
 
 						if(($count = $this->clouds[$name]->getCount($item->getId(), $item->getDamage())) === false){
-							$sender->sendMessage("[ItemCloud] There are no ".$item->getName()." in your account.");
+							$sender->sendMessage("[ItemCloud] There are no " . $item->getName() . " in your account.");
 							break;
 						}else{
-							$sender->sendMessage("[ItemCloud] Count of ".$item->getName()." = ".$count);
+							$sender->sendMessage("[ItemCloud] Count of " . $item->getName() . " = " . $count);
 						}
 						break;
 					default:
-						$sender->sendMessage("[ItemCloud] Usage: ".$command->getUsage());
+						$sender->sendMessage("[ItemCloud] Usage: " . $command->getUsage());
 				}
 				return true;
 		}
@@ -222,7 +222,7 @@ class MainClass extends PluginBase implements Listener{
 		foreach($this->clouds as $cloud){
 			$save[] = $cloud->getAll();
 		}
-		file_put_contents($this->getDataFolder()."ItemCloud.dat", serialize($save));
+		file_put_contents($this->getDataFolder() . "ItemCloud.dat", serialize($save));
 	}
 
 	public function onDisable(){
