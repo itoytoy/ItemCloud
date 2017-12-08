@@ -1,5 +1,5 @@
 name: ItemCloud
-version: "1.3.0-1"
+version: "1.3.0-2"
 author: onebone
 api: [3.0.0-ALPHA7, 3.0.0-ALPHA8, 3.0.0-ALPHA9, 3.0.0-ALPHA10]
 main: onebone\itemcloud\MainClass
