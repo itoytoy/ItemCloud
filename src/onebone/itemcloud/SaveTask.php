@@ -2,14 +2,14 @@
 
 namespace onebone\itemcloud;
 
-use pocketmine\scheduler\PluginTask;
+use pocketmine\scheduler\Task;
 
-class SaveTask extends PluginTask{
+class SaveTask extends Task{
 	public function __construct(MainClass $plugin){
-		parent::__construct($plugin);
+		$this->plugin = $plugin;
 	}
 
 	public function onRun(int $currentTick){
-		$this->getOwner()->save();
+		$this->plugin->save();
 	}
 }
